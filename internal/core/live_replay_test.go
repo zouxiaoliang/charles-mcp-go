@@ -140,11 +140,21 @@ func TestLiveTTLAndPreexistingRecording(t *testing.T) {
 	c, _ := NewCharles(f.server.URL, "", "", "", time.Second)
 	defer c.Close()
 	s := testStore(t)
-	l := NewLiveManager(c, s, time.Nanosecond)
-	_, err := l.Start(ctx, "xml", false, true)
+	l := NewLiveManager(c, s, time.Hour)
+	session, err := l.Start(ctx, "xml", false, true)
 	if err != nil {
 		t.Fatal(err)
 	}
+	if err = l.Expire(ctx); err != nil {
+		t.Fatal(err)
+	}
+	if status := l.Status(); len(status) != 1 || !status[0].Active {
+		t.Fatal("unexpired session removed or stopped")
+	}
+	// Age the session explicitly; elapsed nanoseconds depend on OS clock resolution.
+	l.mu.Lock()
+	l.sessions[session.ID].Updated = time.Now().Add(-2 * l.ttl)
+	l.mu.Unlock()
 	if err = l.Expire(ctx); err != nil {
 		t.Fatal(err)
 	}
@@ -158,7 +168,7 @@ func TestLiveTTLAndPreexistingRecording(t *testing.T) {
 	f.recording = true
 	before := f.stops
 	f.mu.Unlock()
-	session, err := l.Start(ctx, "xml", false, true)
+	session, err = l.Start(ctx, "xml", false, true)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -10,6 +10,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0
 	github.com/klauspost/compress v1.20.0
 	github.com/modelcontextprotocol/go-sdk v1.7.0
+	golang.org/x/sys v0.47.0
 	golang.org/x/text v0.42.0
 	google.golang.org/protobuf v1.36.12
 	modernc.org/sqlite v1.58.0
@@ -26,7 +27,6 @@ require (
 	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
 	golang.org/x/oauth2 v0.35.0 // indirect
 	golang.org/x/sync v0.23.0 // indirect
-	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
 	modernc.org/libc v1.75.6 // indirect
 	modernc.org/mathutil v1.7.1 // indirect

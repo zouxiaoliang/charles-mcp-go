@@ -9,7 +9,6 @@ import (
 	"net/url"
 	"os"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -163,7 +162,7 @@ func (c *Charles) EnsureStopped(ctx context.Context) error {
 		conn.Close()
 		return fmt.Errorf("Charles endpoint is still listening; quit Charles before restoring configuration")
 	}
-	if errors.Is(err, syscall.ECONNREFUSED) {
+	if isConnectionRefused(err) {
 		return nil
 	}
 	return fmt.Errorf("cannot verify Charles is closed: %w", err)
