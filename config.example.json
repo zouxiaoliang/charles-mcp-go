@@ -1,0 +1,9 @@
+{
+  "charles_url": "http://control.charles",
+  "proxy_url": "http://127.0.0.1:8888",
+  "user": "admin",
+  "password": "123456",
+  "timeout_seconds": 30,
+  "session_ttl_seconds": 900,
+  "legacy_aliases": false
+}
