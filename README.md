@@ -23,6 +23,8 @@ charles-mcp --check
 
 MCP 客户端的 `command` 使用安装后可执行文件的绝对路径，见下方客户端配置。再次执行安装命令即可更新到最新版本，也可将 `@latest` 替换为已发布的版本标签来安装指定版本。
 
+`--version` 和 MCP 握手信息会显示安装的模块版本；直接从源码构建时显示 `dev`，发布构建显示对应的 tag。
+
 ### 从源码构建与运行
 
 ```sh
@@ -164,5 +166,26 @@ bash scripts/build-release.sh
 测试覆盖格式导入、保真、动态 Protobuf、过滤统计、SQLite 持久化、游标/响应更新/清空、录制所有权、实际 HTTP 重放、分析工作流、MCP Schema 与独立 stdio 进程握手。
 
 [GitHub Actions CI](.github/workflows/ci.yml) 在 push、pull request 时自动运行，也支持在 Actions 页面手动触发。Go 版本跟随 `go.mod`，校验 `gofmt`、依赖完整性和 `go vet`，并在 Linux、macOS、Windows 上运行竞态检测测试和构建。同一分支有新运行时自动取消旧运行。所有检查通过后，构建脚本输出三平台 amd64/arm64 共六个二进制，可在该次运行的 Artifacts 中下载 `charles-mcp-binaries`。真实 Charles 冒烟测试需本地设置 `CHARLES_MCP_LIVE_SMOKE=1`，默认 CI 不启用。
+
+## 发布版本
+
+将版本 tag 推送到 GitHub 即可自动发布，例如：
+
+```sh
+git tag -a v1.2.3 -m "Release v1.2.3"
+git push origin v1.2.3
+```
+
+tag 格式为 `v主版本.次版本.修订版本`，例如 `v1.2.3`。CI 全部通过后，会自动创建 [GitHub Release](https://github.com/zouxiaoliang/charles-mcp-go/releases)、生成发布说明，并上传 macOS、Linux、Windows 的 amd64/arm64 共六个二进制及 `SHA256SUMS`。下载的程序执行 `--version` 会输出完整 tag，例如 `v1.2.3`。`v1.2.3-rc.1` 等带预发布后缀的 tag 会标记为 Prerelease，不设为最新正式版。失败的检查会阻止发布；重跑已发布 tag 的工作流会更新同名附件。
+
+无需额外配置 Token，发布任务使用 GitHub Actions 自带的 `GITHUB_TOKEN`。仅在本地创建 tag 不会触发发布，必须推送到 GitHub。
+
+本地也可以构建带版本号的发布文件：
+
+```sh
+VERSION=v1.2.3 bash scripts/build-release.sh
+```
+
+未指定 `VERSION` 时，脚本优先使用当前提交的 tag，否则使用 `dev`。构建结果和校验文件保存在 `dist/`。
 
 功能对照与实现依据见 [docs/features.md](docs/features.md)。上游 MIT 许可与来源说明见 [LICENSE](LICENSE)、[PROVENANCE.md](PROVENANCE.md)。

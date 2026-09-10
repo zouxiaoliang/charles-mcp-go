@@ -67,9 +67,54 @@ jobs:
           go-version-file: go.mod
           cache: true
       - name: Cross-compile all supported platforms
+        env:
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'dev' }}
         run: bash scripts/build-release.sh
+      - name: Verify embedded version and checksums
+        env:
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'dev' }}
+        run: |
+          test "$(./dist/charles-mcp-linux-amd64 --version)" = "$VERSION"
+          cd dist
+          sha256sum --check SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
           name: charles-mcp-binaries
           path: dist/*
           if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    if: github.event_name == 'push' && github.ref_type == 'tag' && startsWith(github.ref_name, 'v')
+    needs: cross-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: charles-mcp-binaries
+          path: dist
+      - name: Create release and upload binaries
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+            printf 'Expected a version tag such as v1.2.3 or v1.2.3-rc.1: %s\n' "$RELEASE_TAG" >&2
+            exit 1
+          fi
+          cd dist
+          sha256sum --check SHA256SUMS
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" charles-mcp-* SHA256SUMS --clobber
+          else
+            flags=(--verify-tag --generate-notes --title "$RELEASE_TAG")
+            if [[ "${RELEASE_TAG%%+*}" == *-* ]]; then
+              flags+=(--prerelease --latest=false)
+            fi
+            gh release create "$RELEASE_TAG" charles-mcp-* SHA256SUMS "${flags[@]}"
+          fi

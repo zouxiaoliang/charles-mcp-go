@@ -15,8 +15,6 @@ import (
 	"github.com/zouxiaoliang/charles-mcp-go/internal/app"
 )
 
-var version = "0.1.0"
-
 func main() {
 	if err := run(); err != nil {
 		fmt.Fprintln(os.Stderr, "charles-mcp:", err)
@@ -24,6 +22,7 @@ func main() {
 	}
 }
 func run() error {
+	appVersion := applicationVersion()
 	config := flag.String("config", "", "JSON configuration file")
 	dataDir := flag.String("data-dir", "", "capture database directory")
 	check := flag.Bool("check", false, "check Charles connectivity and exit")
@@ -32,7 +31,7 @@ func run() error {
 	legacy := flag.Bool("legacy-aliases", false, "enable deprecated tool aliases")
 	flag.Parse()
 	if *showVersion {
-		fmt.Println(version)
+		fmt.Println(appVersion)
 		return nil
 	}
 	if *tools {
@@ -81,7 +80,7 @@ func run() error {
 		}
 		return nil
 	}
-	server, err := a.Server(version)
+	server, err := a.Server(appVersion)
 	if err != nil {
 		return err
 	}

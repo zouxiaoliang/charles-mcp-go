@@ -31,6 +31,9 @@ func TestStdioProcessHandshakeAndToolCall(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	if got := session.InitializeResult().ServerInfo.Version; got != applicationVersion() {
+		t.Fatalf("server version = %q, want %q", got, applicationVersion())
+	}
 	tools, err := session.ListTools(ctx, nil)
 	if err != nil || len(tools.Tools) != 32 {
 		t.Fatalf("list tools: %v %v", tools, err)
