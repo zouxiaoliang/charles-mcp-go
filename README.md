@@ -4,11 +4,30 @@
 
 实时功能连接已有 Charles，**不替代 Charles 代理本身**。离线 XML、JSON 和受支持的原生 ZIP 会话可以直接导入；其他原生格式需要 Charles CLI 转换。
 
-## 构建与运行
+## 安装
 
 需要 Go 1.26 或更新版本；项目固定推荐工具链 1.26.8。
 
+### 使用 go install
+
 ```sh
+go install github.com/zouxiaoliang/charles-mcp-go/cmd/charles-mcp@latest
+```
+
+可执行文件安装到 `go env GOBIN` 指定的目录；未设置时默认是 `$(go env GOPATH)/bin`，Windows 文件名为 `charles-mcp.exe`。将安装目录加入 `PATH` 后验证：
+
+```sh
+charles-mcp --version
+charles-mcp --check
+```
+
+MCP 客户端的 `command` 使用安装后可执行文件的绝对路径，见下方客户端配置。再次执行安装命令即可更新到最新版本，也可将 `@latest` 替换为已发布的版本标签来安装指定版本。
+
+### 从源码构建与运行
+
+```sh
+git clone https://github.com/zouxiaoliang/charles-mcp-go.git
+cd charles-mcp-go
 go build -o bin/charles-mcp ./cmd/charles-mcp
 ./bin/charles-mcp --version
 ./bin/charles-mcp --check
@@ -142,6 +161,8 @@ go vet ./...
 bash scripts/build-release.sh
 ```
 
-测试覆盖格式导入、保真、动态 Protobuf、过滤统计、SQLite 持久化、游标/响应更新/清空、录制所有权、实际 HTTP 重放、分析工作流、MCP Schema 与独立 stdio 进程握手。CI 在三种操作系统运行测试。构建脚本输出三平台 amd64/arm64 二进制。
+测试覆盖格式导入、保真、动态 Protobuf、过滤统计、SQLite 持久化、游标/响应更新/清空、录制所有权、实际 HTTP 重放、分析工作流、MCP Schema 与独立 stdio 进程握手。
+
+[GitHub Actions CI](.github/workflows/ci.yml) 在 push、pull request 时自动运行，也支持在 Actions 页面手动触发。Go 版本跟随 `go.mod`，校验 `gofmt`、依赖完整性和 `go vet`，并在 Linux、macOS、Windows 上运行竞态检测测试和构建。同一分支有新运行时自动取消旧运行。所有检查通过后，构建脚本输出三平台 amd64/arm64 共六个二进制，可在该次运行的 Artifacts 中下载 `charles-mcp-binaries`。真实 Charles 冒烟测试需本地设置 `CHARLES_MCP_LIVE_SMOKE=1`，默认 CI 不启用。
 
 功能对照与实现依据见 [docs/features.md](docs/features.md)。上游 MIT 许可与来源说明见 [LICENSE](LICENSE)、[PROVENANCE.md](PROVENANCE.md)。
