@@ -1,0 +1,25 @@
+[
+  {
+    "method": "POST",
+    "scheme": "https",
+    "host": "api.example.test",
+    "path": "/api/upload",
+    "times": {
+      "startMillis": 1000,
+      "endMillis": 1020
+    },
+    "request": {
+      "mimeType": "multipart/form-data; boundary=demo-boundary",
+      "body": {
+        "text": "--demo-boundary\r\nContent-Disposition: form-data; name=\"description\"\r\n\r\nOffline upload demo\r\n--demo-boundary\r\nContent-Disposition: form-data; name=\"attachment\"; filename=\"hello.txt\"\r\nContent-Type: text/plain\r\n\r\nhello from a fake file\n\r\n--demo-boundary--\r\n"
+      }
+    },
+    "response": {
+      "status": 200,
+      "mimeType": "application/json",
+      "body": {
+        "text": "{\"ok\":true}"
+      }
+    }
+  }
+]
