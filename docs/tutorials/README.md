@@ -9,3 +9,7 @@ Start with [client setup](../clients.md). The first two workflows use [synthetic
 3. [Change a request and compare / 修改参数并对比响应](03-replay-and-compare.md)
 
 Replace example file paths with absolute paths on your machine. Use the `capture_id` and `entry_id` returned by each call; IDs in prose are placeholders.
+
+## More offline examples / 更多离线示例
+
+- [Decode a gzip response / 解码 gzip 响应](gzip-response.md)
