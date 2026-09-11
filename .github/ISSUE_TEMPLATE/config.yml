@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Client setup / 客户端配置
+    url: https://github.com/zouxiaoliang/charles-mcp-go/blob/main/docs/clients.md
+    about: Installation, Claude Desktop, Cursor and common connection problems.

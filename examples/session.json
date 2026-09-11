@@ -1,0 +1,20 @@
+[
+  {
+    "method": "POST", "scheme": "https", "host": "api.example.test", "path": "/api/login",
+    "times": {"startMillis": 1000, "endMillis": 1030},
+    "request": {"mimeType": "application/json", "body": {"text": "{\"username\":\"demo\",\"password\":\"demo-wrong\"}"}},
+    "response": {"status": 401, "mimeType": "application/json", "body": {"text": "{\"error\":\"invalid_credentials\"}"}}
+  },
+  {
+    "method": "GET", "scheme": "https", "host": "api.example.test", "path": "/api/products",
+    "times": {"startMillis": 1100, "endMillis": 1120},
+    "request": {},
+    "response": {"status": 200, "mimeType": "application/json", "body": {"text": "{\"products\":[{\"id\":1,\"name\":\"Demo product\"}]}"}}
+  },
+  {
+    "method": "GET", "scheme": "https", "host": "api.example.test", "path": "/api/orders",
+    "times": {"startMillis": 1200, "endMillis": 1225},
+    "request": {},
+    "response": {"status": 401, "mimeType": "application/json", "body": {"text": "{\"error\":\"missing_demo_token\"}"}}
+  }
+]

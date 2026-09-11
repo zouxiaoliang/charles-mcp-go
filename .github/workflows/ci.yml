@@ -54,6 +54,12 @@ jobs:
         run: go test -race -count=1 -timeout=10m ./...
       - name: Build executable
         run: go build ./cmd/charles-mcp
+      - name: Run the documented MCP demo
+        shell: bash
+        run: |
+          binary=./charles-mcp
+          if [[ "$RUNNER_OS" == Windows ]]; then binary+=.exe; fi
+          go run ./examples/demo -server "$binary"
 
   cross-build:
     name: Build release binaries

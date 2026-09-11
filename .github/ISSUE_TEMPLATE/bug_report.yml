@@ -1,0 +1,38 @@
+name: Bug report / 问题反馈
+description: Report a reproducible installation, capture, import or replay problem.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version / 版本
+      description: Output of charles-mcp --version.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / 环境
+      description: OS, CPU architecture, MCP client, Charles version, installation method.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction / 复现步骤
+      description: Tool name, arguments and minimal steps. Use synthetic traffic and replace real credentials.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior / 预期与实际表现
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error output / 错误输出
+      description: Remove tokens, cookies, passwords and personal data before sharing.
+      render: text

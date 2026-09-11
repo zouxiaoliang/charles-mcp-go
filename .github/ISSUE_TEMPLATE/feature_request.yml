@@ -1,0 +1,23 @@
+name: Feature request / 功能建议
+description: Explain a debugging workflow you want to improve.
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Workflow or problem / 场景与问题
+      description: What are you trying to inspect, automate or understand?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior / 期望行为
+      description: Include a concrete example input and useful output.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Current workaround / 当前替代方案

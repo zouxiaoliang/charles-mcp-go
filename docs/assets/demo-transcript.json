@@ -1,0 +1,35 @@
+[
+  {
+    "title": "01  IMPORT A RECORDING",
+    "tool": "reverse_import_session",
+    "lines": [
+      "3 requests imported from demo-session.json",
+      "Actual HTTP responses from a local demo API"
+    ]
+  },
+  {
+    "title": "02  FIND THE FAILED LOGIN",
+    "tool": "reverse_query_entries",
+    "lines": [
+      "Filter: errors_only + path contains login",
+      "POST /api/login  -\u003e  401"
+    ]
+  },
+  {
+    "title": "03  INSPECT THE RESPONSE",
+    "tool": "reverse_decode_entry_body",
+    "lines": [
+      "{\"error\":\"invalid_credentials\"}",
+      "Demo API accepts the fixture password: demo-valid"
+    ]
+  },
+  {
+    "title": "04  REPLAY WITH ONE CHANGE",
+    "tool": "reverse_replay_entry",
+    "lines": [
+      "json_overrides: {\"/password\":\"demo-valid\"}",
+      "Baseline 401  -\u003e  Replay 200",
+      "Real loopback request sent; comparison persisted"
+    ]
+  }
+]

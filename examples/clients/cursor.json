@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "charles": {
+      "command": "/absolute/path/to/charles-mcp",
+      "env": {
+        "CHARLES_PROXY_URL": "http://127.0.0.1:8888",
+        "CHARLES_USER": "admin",
+        "CHARLES_PASS": "your-web-interface-password"
+      }
+    }
+  }
+}
