@@ -13,3 +13,6 @@ Replace example file paths with absolute paths on your machine. Use the `capture
 ## More offline examples / 更多离线示例
 
 - [Decode a gzip response / 解码 gzip 响应](gzip-response.md)
+## Multipart inspection / Multipart 检查
+
+- [Inspect a multipart upload / 检查 multipart 上传](multipart-request.md)
