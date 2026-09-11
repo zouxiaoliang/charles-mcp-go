@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<charles-session>
+  <transaction method="GET" protocol="https" host="api.example.test" port="443" path="/api/greeting" startTimeMillis="1000" endTimeMillis="1020">
+    <request />
+    <response status="200">
+      <headers>
+        <header><name>Content-Type</name><value>application/json</value></header>
+        <header><name>Content-Encoding</name><value>gzip</value></header>
+      </headers>
+      <body encoding="base64">H4sIAAAAAAAC/6tWyk0tLk5MT1WyUspIzcnJV0grys9VSK/KLFDSUcrPVrIqKSpNrQUAdihGsycAAAA=</body>
+    </response>
+  </transaction>
+</charles-session>
