@@ -11,9 +11,10 @@ func TestResolveVersion(t *testing.T) {
 	}{
 		{"release linker flag", "v1.2.3", "(devel)", "v1.2.3"},
 		{"linker flag takes priority", "v1.2.3-rc.1", "v1.2.2", "v1.2.3-rc.1"},
-		{"go install release", "dev", "v1.2.3", "v1.2.3"},
-		{"go install commit", "dev", "v0.0.0-20260910000000-abcdef123456", "v0.0.0-20260910000000-abcdef123456"},
-		{"source checkout", "dev", "(devel)", "dev"},
+		{"explicit dev overrides module metadata", "dev", "v1.2.3", "dev"},
+		{"go install release", "", "v1.2.3", "v1.2.3"},
+		{"go install commit", "", "v0.0.0-20260910000000-abcdef123456", "v0.0.0-20260910000000-abcdef123456"},
+		{"source checkout", "", "(devel)", "dev"},
 		{"empty metadata", "", "", "dev"},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
